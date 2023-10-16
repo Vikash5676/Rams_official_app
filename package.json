@@ -1,6 +1,6 @@
 {
   "name": "rams-official",
-  "version": "1.0.2",
+  "version": "1.0.1",
   "description": "Rams Enterprises",
   "main": "electron.js",
   "build": {
