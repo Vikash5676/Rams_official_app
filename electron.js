@@ -8,8 +8,7 @@ const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
 
 
-autoUpdater.logger = log;
-autoUpdater.logger.transports.file.level = 'info';
+
 log.info('App starting...');
 log.transports.file.resolvePath = () => path.join(`C:/Users/vikas/OneDrive/Desktop/rams_ent_final/rams-official`, `/logs/main.logs`)
 
@@ -21,7 +20,7 @@ function sendStatusToWindow(text) {
 
 function createMainWindow() {
     const mainWindow = new BrowserWindow({
-        title: `Rams Enterprises ${app.getVersion()}`,
+        title: `Ram's Enterprises ${app.getVersion()}`,
         width: 800,
         height: 600,
         icon: __dirname + '/icon/favicon.ico',
@@ -64,12 +63,14 @@ autoUpdater.on('update-not-available', (info) => {
 autoUpdater.on('error', (err) => {
     sendStatusToWindow('Error in auto-updater. ' + err);
 })
+
 autoUpdater.on('download-progress', (progressObj) => {
     let log_message = "Download speed: " + progressObj.bytesPerSecond;
     log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
     log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
     sendStatusToWindow(log_message);
 })
+
 autoUpdater.on('update-downloaded', (info) => {
     sendStatusToWindow('Update downloaded');
 });
