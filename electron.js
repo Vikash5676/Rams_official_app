@@ -42,6 +42,13 @@ function createMainWindow() {
 
     mainWindow.loadURL(isDev ? "http://localhost:3000" : startUrl)
 
+
+    mainWindow.on('closed', () => {
+        mainWindow = null;
+    });
+    return mainWindow;
+
+
 }
 
 
