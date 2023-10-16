@@ -1,0 +1,50 @@
+{
+  "name": "rams-official",
+  "version": "1.0.1",
+  "description": "Rams Enterprises",
+  "main": "electron.js",
+  "build": {
+    "appId": "rams-official",
+    "extraFiles": {
+      "from": "official/build",
+      "to": "./dist"
+    },
+    "win": {
+      "icon": "official/build/favicon.png",
+      "target": [
+        "portable",
+        "nsis",
+        "msi"
+      ]
+    },
+    "linux": {
+      "icon": "official/build/favicon.png",
+      "target": [
+        "pacman"
+      ]
+    },
+    "publish": {
+      "provider": "github",
+      "repo": "Rams_official_app",
+      "owner": "Vikash5676"
+    }
+  },
+  "scripts": {
+    "start": "electron .",
+    "dev:watch": "npx electronmon --trace-warnings .",
+    "build": "electron-builder -p always"
+  },
+  "author": "Vikash",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "electron-is-dev": "^2.0.0",
+    "electron-updater": "^6.1.4",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "electron": "^26.1.0",
+    "electron-builder": "^24.6.4",
+    "electron-log": "^4.4.8"
+  }
+}
