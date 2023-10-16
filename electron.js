@@ -11,15 +11,16 @@ const log = require('electron-log');
 
 log.info('App starting...');
 log.transports.file.resolvePath = () => path.join(`C:/Users/vikas/OneDrive/Desktop/rams_ent_final/rams-official`, `/logs/main.logs`)
+let mainWindow
 
 function sendStatusToWindow(text) {
     log.info(text);
-    win.webContents.send('message', text);
+    mainWindow.webContents.send('message', text);
 }
 
 
 function createMainWindow() {
-    const mainWindow = new BrowserWindow({
+    mainWindow = new BrowserWindow({
         title: `Ram's Enterprises ${app.getVersion()}`,
         width: 800,
         height: 600,
