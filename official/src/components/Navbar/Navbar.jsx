@@ -17,7 +17,7 @@ const Navbar = ({ setAuth }) => {
         </div>
         <div className="right">
           <Link to={"/"} className="dashboard-link">
-            Dashboard Happy
+            Dashboard
           </Link>
           <div className="nav-user">
             <TbPower onClick={handleLogout} />
