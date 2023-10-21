@@ -5,5 +5,5 @@
 /dist
 /bild
 /logs
-# ramsent.db
+/ramsent.db
 /emp_data.js
