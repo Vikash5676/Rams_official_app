@@ -6,6 +6,8 @@ const isDev = require('electron-is-dev');
 const bcrypt = require("bcryptjs")
 const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
+const dataToInsert = require('./emp_data');
+
 
 
 
@@ -143,7 +145,8 @@ db.get(`CREATE TABLE IF NOT EXISTS Workers (
     gpValid TEXT,
     email TEXT,
     profileImg TEXT,
-    mobileNo NUMBER UNIQUE
+    location TEXT,
+    mobileNo NUMBER
   )`)
 
 db.get(`CREATE TABLE IF NOT EXISTS Workerppe (
@@ -232,6 +235,39 @@ app.on('before-quit', () => {
         }
     });
 });
+
+// const stmt = db.prepare(`INSERT INTO Workers (safetyPassNo  ,
+//     empName  ,
+//     fathersName ,
+//     designation ,
+//     spValid ,
+//     woNo ,
+//     gpNo ,
+//     gpValid ,
+//     email ,
+//     profileImg ,
+//     location ,
+//     mobileNo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`)
+
+
+// dataToInsert.map((row) => {
+//     stmt.run(row["SAFETYPASSNO"], row["EMPNAME"], row["FATHERSNAME"], row["DESIGNATION"], row["SPVALID"], row["WONO"], row["GATEPASSNO"], row["GPVALID"], row["Email"], row["PROFILEIMG"], row["LOCATION"], row["MOBILENO"],);
+// });
+// // Finalize the statement to close it
+// stmt.finalize();
+
+// // Commit the transaction
+// db.run('COMMIT');
+// db.close()
+// 
+
+//to go back()
+
+ipcMain.on('goBackHomeBoi', async (event, arg) => {
+    mainWindow.webContents.goBack()
+})
+
+
 
 function allQuerry(sql) {
     return new Promise((resolve, reject) => {

@@ -3,7 +3,7 @@ const { ipcRenderer, contextBridge } = require('electron');
 contextBridge.exposeInMainWorld('api', {
     // Invoke Methods
     userDetails: (args) => ipcRenderer.invoke('user-details', args),
-    verifyToken: (args) => ipcRenderer.invoke("verify-token",args),
+    verifyToken: (args) => ipcRenderer.invoke("verify-token", args),
     materialDetails: () => ipcRenderer.invoke('material-details'),
     allStocks: () => ipcRenderer.invoke('all-stocks'),
     stockDetail: (args) => ipcRenderer.invoke('stock-detail', args),
@@ -32,6 +32,7 @@ contextBridge.exposeInMainWorld('api', {
     updateRentalItem: (args) => ipcRenderer.invoke('update-rentalItem', args),
     // Send Methods
     testSend: (args) => ipcRenderer.send('test-send'),
+    goBackHomeBoi: () => ipcRenderer.send('goBackHomeBoi'),
     // Receive Methods
     testReceive: (callback) => ipcRenderer.on('test-receive', (event, data) => { callback(data) })
 });

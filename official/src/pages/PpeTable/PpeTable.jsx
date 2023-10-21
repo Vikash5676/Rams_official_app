@@ -143,7 +143,7 @@ function PpeTable({ mbNo }) {
   }, [showTable]);
 
   return (
-    <>
+    <div className=" min-h-screen">
       {showTable ? (
         <MaterialReactTable
           data={data}
@@ -196,7 +196,7 @@ function PpeTable({ mbNo }) {
       ) : (
         <Loader active />
       )}
-    </>
+    </div>
   );
 }
 
