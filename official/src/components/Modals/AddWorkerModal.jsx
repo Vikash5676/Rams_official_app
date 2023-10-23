@@ -21,8 +21,23 @@ function AddWorkerModal({ method, data }) {
     mobileNo: data ? data.mobileNo : "",
   });
   const handleChange = (e) => {
-    setInformation({ ...inform, [e.target.name]: e.target.value });
+    if (e.target.name === "profileImg") {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        setInformation({ ...inform, profileImg: e.target.result });
+      };
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+      setInformation({ ...inform, [e.target.name]: e.target.files[0] });
+    } else {
+      setInformation({ ...inform, [e.target.name]: e.target.value });
+    }
   };
+
   const handleSubmit = async () => {
     if (method === "POST") {
       const postReq = await window.api.addWorker(inform);
@@ -31,6 +46,7 @@ function AddWorkerModal({ method, data }) {
       } else {
         Swal.fire({ icon: "error", text: "Something Went Wrong" });
       }
+      setIsModalOpen(false);
     } else if (method === "PATCH") {
       const postReq = await window.api.updateWorker(inform);
       if (postReq) {
@@ -38,6 +54,7 @@ function AddWorkerModal({ method, data }) {
       } else {
         Swal.fire({ icon: "error", text: "Something Went Wrong" });
       }
+      setIsModalOpen(false);
     }
   };
 
@@ -159,7 +176,7 @@ function AddWorkerModal({ method, data }) {
               type="file"
               name="profileImg"
               onChange={handleChange}
-              accept="image/png, image/jpeg"
+              accept="image/*"
             />
           </Form.Field>
           <Form.Field className="flex-[22%]" required>

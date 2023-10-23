@@ -7,6 +7,7 @@ const bcrypt = require("bcryptjs")
 const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
 const dataToInsert = require('./emp_data');
+const fs = require('fs');
 
 
 
@@ -144,7 +145,7 @@ db.get(`CREATE TABLE IF NOT EXISTS Workers (
     gpNo TEXT,
     gpValid TEXT,
     email TEXT,
-    profileImg TEXT,
+    profileImg BLOB,
     location TEXT,
     mobileNo NUMBER
   )`)
@@ -181,7 +182,7 @@ db.get(`CREATE TABLE IF NOT EXISTS Safetyobservation (
     site_supervisor_concerned TEXT ,
     manpower TEXT,
     violation_detail TEXT,
-    attachment TEXT,
+    attachment BLOB,
     observation_locked_by TEXT,
     action_taken TEXT,
     current_status TEXT
@@ -517,10 +518,10 @@ ipcMain.handle("update-worker", async (event, args) => {
     empName="${args.empName}",
     fathersName="${args.fathersName}",
     designation="${args.designation}",
-    spValid="${args.spValid}",
+    spValid="${args.spValid.split("-").reverse().join("-")}",
     woNo="${args.woNo}",
     gpNo="${args.gpNo}",
-    gpValid="${args.gpValid}",
+    gpValid="${args.gpValid.split("-").reverse().join("-")}",
     email="${args.email}",
     profileImg="${args.profileImg}",
     mobileNo=${args.mobileNo}

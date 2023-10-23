@@ -24,6 +24,19 @@ function WorkerTable({ data }) {
   const columns = useMemo(
     () => [
       {
+        accessorFn: (row) => (
+          <img
+            src={row.profileImg}
+            alt={row.empName}
+            className="w-[100px] h-[100px] rounded-md object-cover object-center "
+          />
+        ), //alternate way
+        id: "profileImg", //id required if you use accessorFn instead of accessorKey
+        header: "Profile Image",
+        Header: <span style={{ color: "Blue" }}>Profile Image</span>,
+        size: 110, //optional custom markup
+      },
+      {
         accessorFn: (row) => row.safetyPassNo, //alternate way
         id: "safetyPassNo", //id required if you use accessorFn instead of accessorKey
         header: "SAFETY PASS NO",

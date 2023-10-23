@@ -38,7 +38,20 @@ const AddSafteyObservationModal = ({ method, data }) => {
   };
 
   const handleChange = (e) => {
-    setObservation({ ...observation, [e.target.name]: e.target.value });
+    if (e.target.name === "attachment") {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        setObservation({ ...observation, attachment: e.target.result });
+      };
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    } else {
+      setObservation({ ...observation, [e.target.name]: e.target.value });
+    }
   };
 
   const handleSubmit = async (e) => {
