@@ -8,7 +8,7 @@ const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
 const dataToInsert = require('./emp_data');
 const fs = require('fs');
-require('dotenv').config();
+
 
 log.info('App starting...');
 log.transports.file.resolvePath = () => path.join(`C:/Users/vikas/OneDrive/Desktop/rams_ent_final/rams-official`, `/logs/main.logs`)
