@@ -32,7 +32,6 @@ function AddWorkerModal({ method, data }) {
       if (file) {
         reader.readAsDataURL(file);
       }
-      setInformation({ ...inform, [e.target.name]: e.target.files[0] });
     } else {
       setInformation({ ...inform, [e.target.name]: e.target.value });
     }
@@ -162,9 +161,9 @@ function AddWorkerModal({ method, data }) {
             />
           </Form.Field>
           <Form.Field className="flex-[22%]">
-            <label htmlFor="">Email</label>
+            <label htmlFor="">Email/Address</label>
             <input
-              type="email"
+              type="text"
               name="email"
               onChange={handleChange}
               value={inform.email}
