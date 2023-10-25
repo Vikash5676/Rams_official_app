@@ -85,8 +85,6 @@ autoUpdater.on("update-available", (_event, releaseNotes, releaseName) => {
 
     });
     sendStatusToWindow('Update available.');
-    // Backup the database
-    fs.copyFileSync(dbPath, backupPath);
 })
 
 autoUpdater.on('update-not-available', (info) => {
@@ -116,6 +114,8 @@ autoUpdater.on("update-downloaded", (_event, releaseNotes, releaseName) => {
         if (returnValue.response === 0) autoUpdater.quitAndInstall()
     })
     sendStatusToWindow('Update downloaded.');
+    // Backup the database
+    fs.copyFileSync(dbPath, backupPath);
 });
 
 
