@@ -8,6 +8,9 @@ const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
 const dataToInsert = require('./emp_data');
 const fs = require('fs');
+require('dotenv').config();
+
+const githubToken = process.env.GH_TOKEN;
 
 
 

@@ -25,6 +25,7 @@
     },
     "publish": {
       "provider": "github",
+      "token": "githubToken",
       "repo": "Rams_official_app",
       "owner": "Vikash5676"
     }
@@ -38,6 +39,7 @@
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "dotenv": "^16.3.1",
     "electron-is-dev": "^2.0.0",
     "electron-log": "^4.4.8",
     "electron-updater": "^6.1.4",
