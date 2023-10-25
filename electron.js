@@ -10,11 +10,6 @@ const dataToInsert = require('./emp_data');
 const fs = require('fs');
 require('dotenv').config();
 
-const githubToken = process.env.GH_TOKEN;
-
-
-
-
 log.info('App starting...');
 log.transports.file.resolvePath = () => path.join(`C:/Users/vikas/OneDrive/Desktop/rams_ent_final/rams-official`, `/logs/main.logs`)
 let mainWindow
@@ -68,11 +63,6 @@ const backupPath = isDev
 
 
 
-
-
-
-
-
 app.whenReady().then(() => {
     createMainWindow();
     autoUpdater.checkForUpdatesAndNotify();
@@ -82,11 +72,23 @@ app.whenReady().then(() => {
 autoUpdater.on('checking-for-update', () => {
     sendStatusToWindow('Checking for update...');
 })
-autoUpdater.on('update-available', (info) => {
+
+autoUpdater.on("update-available", (_event, releaseNotes, releaseName) => {
+    const dialogOpts = {
+        type: 'info',
+        buttons: ['Ok'],
+        title: 'Application Update',
+        message: process.platform === 'win32' ? releaseNotes : releaseName,
+        detail: 'A new version is being downloaded.'
+    }
+    dialog.showMessageBox(dialogOpts, (response) => {
+
+    });
     sendStatusToWindow('Update available.');
     // Backup the database
     fs.copyFileSync(dbPath, backupPath);
 })
+
 autoUpdater.on('update-not-available', (info) => {
     sendStatusToWindow('Update not available.');
     fs.copyFileSync(backupPath, dbPath);
@@ -102,27 +104,18 @@ autoUpdater.on('download-progress', (progressObj) => {
     sendStatusToWindow(log_message);
 })
 
-autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
-    sendStatusToWindow('Update downloaded');
-    // Notify the user that an update is ready to be installed
-    // You can show a dialog or create a notification, for example
-
-    // Example: Show a dialog to ask the user to install the update
-    const dialogOptions = {
+autoUpdater.on("update-downloaded", (_event, releaseNotes, releaseName) => {
+    const dialogOpts = {
         type: 'info',
-        buttons: ['Install', 'Later'],
-        defaultId: 0,
-        title: 'Update Available',
-        message: 'A new version of the application is ready to be installed.',
-        detail: `Version ${releaseName} is available `,
+        buttons: ['Restart', 'Later'],
+        title: 'Application Update',
+        message: process.platform === 'win32' ? releaseNotes : releaseName,
+        detail: 'A new version has been downloaded. Restart the application to apply the updates.'
     };
-
-    const choice = dialog.showMessageBox(dialogOptions);
-
-    if (choice === 0) {
-        // User chose to install the update
-        autoUpdater.quitAndInstall();
-    }
+    dialog.showMessageBox(dialogOpts).then((returnValue) => {
+        if (returnValue.response === 0) autoUpdater.quitAndInstall()
+    })
+    sendStatusToWindow('Update downloaded.');
 });
 
 
