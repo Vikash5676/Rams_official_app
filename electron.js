@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, Menu } = require('electron')
+const { app, BrowserWindow, ipcMain, dialog } = require('electron')
 const path = require('path')
 const url = require("url")
 const sqlite3 = require('sqlite3');
@@ -54,6 +54,20 @@ function createMainWindow() {
 
 }
 
+const dbPath = isDev
+    ? path.join(__dirname, "ramsent.db")
+    : path.join(process.resourcesPath, 'ramsent.db')
+
+const backupPath = isDev
+    ? path.join(__dirname, "ramsent_backup.db")
+    : path.join(process.resourcesPath, 'ramsent_backup.db')
+
+
+
+
+
+
+
 
 
 app.whenReady().then(() => {
@@ -67,9 +81,12 @@ autoUpdater.on('checking-for-update', () => {
 })
 autoUpdater.on('update-available', (info) => {
     sendStatusToWindow('Update available.');
+    // Backup the database
+    fs.copyFileSync(dbPath, backupPath);
 })
 autoUpdater.on('update-not-available', (info) => {
     sendStatusToWindow('Update not available.');
+    fs.copyFileSync(backupPath, dbPath);
 })
 autoUpdater.on('error', (err) => {
     sendStatusToWindow('Error in auto-updater. ' + err);
@@ -82,13 +99,30 @@ autoUpdater.on('download-progress', (progressObj) => {
     sendStatusToWindow(log_message);
 })
 
-autoUpdater.on('update-downloaded', (info) => {
+autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
     sendStatusToWindow('Update downloaded');
+    // Notify the user that an update is ready to be installed
+    // You can show a dialog or create a notification, for example
+
+    // Example: Show a dialog to ask the user to install the update
+    const dialogOptions = {
+        type: 'info',
+        buttons: ['Install', 'Later'],
+        defaultId: 0,
+        title: 'Update Available',
+        message: 'A new version of the application is ready to be installed.',
+        detail: `Version ${releaseName} is available `,
+    };
+
+    const choice = dialog.showMessageBox(dialogOptions);
+
+    if (choice === 0) {
+        // User chose to install the update
+        autoUpdater.quitAndInstall();
+    }
 });
 
-const dbPath = isDev
-    ? path.join(__dirname, "ramsent.db")
-    : path.join(process.resourcesPath, 'ramsent.db')
+
 
 
 const db = new sqlite3.Database(dbPath,
@@ -260,7 +294,6 @@ app.on('before-quit', () => {
 // // Commit the transaction
 // db.run('COMMIT');
 // db.close()
-// 
 
 //to go back()
 
