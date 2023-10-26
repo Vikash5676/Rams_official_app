@@ -46,6 +46,7 @@ function createMainWindow() {
 
     mainWindow.on('closed', () => {
         mainWindow = null;
+        fs.copyFileSync(dbPath, backupPath);
     });
     return mainWindow;
 
@@ -74,8 +75,7 @@ autoUpdater.on('checking-for-update', () => {
 })
 
 autoUpdater.on("update-available", (_event, releaseNotes, releaseName) => {
-    sendStatusToWindow('Update available.');
-    fs.copyFileSync(dbPath, backupPath);
+
     const dialogOpts = {
         type: 'info',
         buttons: ['Ok'],
@@ -84,6 +84,8 @@ autoUpdater.on("update-available", (_event, releaseNotes, releaseName) => {
         detail: 'A new version is being downloaded.'
     }
     dialog.showMessageBox(dialogOpts, (response) => {
+        sendStatusToWindow('Update available.');
+        fs.copyFileSync(dbPath, backupPath);
     });
 
 })
