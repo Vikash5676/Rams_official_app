@@ -113,7 +113,7 @@ autoUpdater.on("update-downloaded", (_event, releaseNotes, releaseName) => {
     dialog.showMessageBox(dialogOpts).then((returnValue) => {
         if (returnValue.response === 0) autoUpdater.quitAndInstall()
     })
-    sendStatusToWindow('Update downloaded.');
+    sendStatusToWindow(`Update downloaded. ${releaseName}`);
     // Backup the database
     fs.copyFileSync(dbPath, backupPath);
 });
