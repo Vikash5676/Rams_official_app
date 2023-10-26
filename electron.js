@@ -82,9 +82,10 @@ autoUpdater.on("update-available", (_event, releaseNotes, releaseName) => {
         detail: 'A new version is being downloaded.'
     }
     dialog.showMessageBox(dialogOpts, (response) => {
-
+        sendStatusToWindow('Update available.');
+        fs.copyFileSync(dbPath, backupPath);
     });
-    sendStatusToWindow('Update available.');
+
 })
 
 autoUpdater.on('update-not-available', (info) => {
@@ -115,7 +116,7 @@ autoUpdater.on("update-downloaded", (_event, releaseNotes, releaseName) => {
     })
     sendStatusToWindow(`Update downloaded. ${releaseName}`);
     // Backup the database
-    fs.copyFileSync(dbPath, backupPath);
+
 });
 
 
